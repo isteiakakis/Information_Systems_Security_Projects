@@ -1,0 +1,24 @@
+Hello world! Hi people. Hi everybody.
+
+I am just a plaintext. A plain plaintext.
+A plaintext that is going to be encrypted.
+
+Through RSA.
+
+And then decrypted.
+
+I am keeping my fingers crossed that after
+that I will be the same!
+
+
+
+
+Test me (from bash) using:
+
+printf "193939\n199933\n" | ./rsa_assign_1 -g
+./rsa_assign_1 -i plaintext.txt -o ciphertext.txt -k public.key -e
+./rsa_assign_1 -i ciphertext.txt -o plaintext_recovered.txt -k private.key -d
+
+
+You can change the prime numbers if you want, here are some choices:
+https://en.wikipedia.org/wiki/List_of_prime_numbers

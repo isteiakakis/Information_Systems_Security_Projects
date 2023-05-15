@@ -1,0 +1,45 @@
+Ubuntu 20.04 LTS
+
+
+The code that is being examined in the the file app.py.
+
+Firstly, on the user login page, the input goes into the query
+	SELECT * FROM users WHERE username = 'user' AND password = '{password}'
+in {password}.
+
+Knowing that in SQL the OR operator has lower precedence than the AND operator,
+we give as input 
+	' OR '' = '
+resulting in the query
+	SELECT * FROM users WHERE username = 'user' AND password = '' OR '' = ''
+	                                                            ^~~~~~~~~~~
+
+The condition '' = '' is true. The AND operator will be executed first and will
+return false, then the OR operator which will return true. Hence, the query will
+match every record and the result will not be empty. Therefore, the login will
+be successfull.
+
+
+
+On the dashboard page the input goes into the query
+	SELECT name,category,price FROM items WHERE name = '{name}'
+in {name}.
+
+By providing the input
+	' UNION SELECT * FROM users WHERE username='superadmin
+the resulting query will be
+	SELECT name,category,price FROM items WHERE name = '' UNION SELECT * FROM users WHERE username='superadmin'
+	                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First, in app.py on line 89
+	results = res.fetchall()[0]
+we observe that only the first result will be used. So, with the condition
+	name = ''
+we know that it will not match any results. Using union we append the query that
+searches for the superadmin information in the users table.
+
+The superadmin password is sup3r4dm1nP@5sw0rd
+
+By navigating to the admin page and inputting the password, we are logged in as
+superadmin.
+
